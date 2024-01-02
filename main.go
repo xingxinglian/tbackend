@@ -11,5 +11,5 @@ func main() {
 	db.InitDB()
 
 	router := routers.InitRouter()
-	router.Run(":8080")
+	router.Run(":80")
 }

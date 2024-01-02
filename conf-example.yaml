@@ -5,4 +5,5 @@ aws:
   s3_bucket: abd
   s3_key_id: asdf
   s3_access_key: adfas
+db_dsn: postgres://user:password@host:5432/dbname
 

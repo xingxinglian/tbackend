@@ -22,6 +22,8 @@ type Conf struct {
 		S3KeyId     string `yaml:"s3_key_id"`
 		S3AccessKey string `yaml:"s3_access_key"`
 	} `yaml:"aws"`
+
+	DBDsn string `yaml:"db_dsn"`
 }
 
 var gConfigName string
