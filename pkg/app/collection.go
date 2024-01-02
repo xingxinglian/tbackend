@@ -47,7 +47,7 @@ func UpdateCollectionMetadata(c *gin.Context) {
 		Description: updatedMetadata.Description,
 		Image:       updatedMetadata.Image,
 		CoverImage:  updatedMetadata.CoverImage,
-		SocialLinks: updatedMetadata.SocialLinks,
+		// SocialLinks: updatedMetadata.SocialLinks,
 	}
 	model.SocialLinks = append(model.SocialLinks, updatedMetadata.SocialLinks...)
 
