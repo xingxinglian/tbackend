@@ -86,7 +86,8 @@ func GetCollectionMetadata(c *gin.Context) {
 		// SocialLinks: model.SocialLinks,
 	}
 	metadata.SocialLinks = make([]string, 0)
-	err := json.Unmarshal([]byte(model.SocialLinks), metadata.SocialLinks)
+	// var sss interface{}
+	err := json.Unmarshal([]byte(model.SocialLinks), &metadata.SocialLinks)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
