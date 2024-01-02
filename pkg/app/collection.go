@@ -49,6 +49,7 @@ func UpdateCollectionMetadata(c *gin.Context) {
 		CoverImage:  updatedMetadata.CoverImage,
 		SocialLinks: updatedMetadata.SocialLinks,
 	}
+	model.SocialLinks = append(model.SocialLinks, updatedMetadata.SocialLinks...)
 
 	// 假设我们使用 ID 字段来识别要更新的记录
 	result := db.DB.Model(&models.CollectionMetadata{}).Where("name = ?", model.Name).Updates(model)
