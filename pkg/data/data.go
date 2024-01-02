@@ -13,5 +13,5 @@ type NftItemData struct {
 	Description string `json:"description"`
 	ExternalUrl string `json:"external_url"`
 	Image       string `json:"image"`
-	Marketplace string `json:"getgems.io"`
+	Marketplace string `json:"marketplace"`
 }

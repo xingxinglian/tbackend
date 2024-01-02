@@ -3,6 +3,8 @@
 package main
 
 import (
+	"tonx/pkg/app"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,35 +12,15 @@ func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	// 上传图片的接口
-	router.POST("/upload", uploadHandler)
+	router.POST("/upload", app.UploadHandler)
 
 	// 更新和获取 Collection Metadata 的接口
-	router.POST("/collection/update", updateCollectionMetadata)
-	router.GET("/collection", getCollectionMetadata)
+	router.POST("/collection/create", app.CreateCollectionMetadata)
+	router.GET("/collection/get", app.GetCollectionMetadata)
 
 	// 更新和获取 TokenTick Metadata 的接口
-	router.POST("/tokentick/update", updateTokenTickMetadata)
-	router.GET("/tokentick", getTokenTickMetadata)
+	router.POST("/tokentick/create", app.CreateItem)
+	router.GET("/tokentick/get", app.GetItem)
 
 	return router
-}
-
-func uploadHandler(c *gin.Context) {
-	// 实现文件上传逻辑
-}
-
-func updateCollectionMetadata(c *gin.Context) {
-	// 实现更新 Collection Metadata 逻辑
-}
-
-func getCollectionMetadata(c *gin.Context) {
-	// 实现获取 Collection Metadata 逻辑
-}
-
-func updateTokenTickMetadata(c *gin.Context) {
-	// 实现更新 TokenTick Metadata 逻辑
-}
-
-func getTokenTickMetadata(c *gin.Context) {
-	// 实现获取 TokenTick Metadata 逻辑
 }

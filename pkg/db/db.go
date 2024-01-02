@@ -3,6 +3,7 @@ package db
 import (
 	"log"
 	"tonx/pkg/config"
+	"tonx/pkg/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -17,5 +18,12 @@ func InitDB() {
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
+	}
+
+	// atuo migrate
+	err = DB.AutoMigrate(&models.CollectionMetadata{}, &models.NftItem{})
+	if err != nil {
+		log.Fatalf(" auto migrate : %v", err)
+		return
 	}
 }
