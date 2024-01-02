@@ -22,8 +22,9 @@ func CreateCollectionMetadata(c *gin.Context) {
 		Description: newMetadata.Description,
 		Image:       newMetadata.Image,
 		CoverImage:  newMetadata.CoverImage,
-		SocialLinks: newMetadata.SocialLinks,
+		// SocialLinks: newMetadata.SocialLinks,
 	}
+	model.SocialLinks = append(model.SocialLinks, newMetadata.SocialLinks...)
 
 	// 使用 GORM 创建新的记录
 	result := db.DB.Create(model)
