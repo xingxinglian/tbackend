@@ -1,0 +1,8 @@
+env: local
+app_name: www-backend
+aws:
+  s3_region: zn
+  s3_bucket: abd
+  s3_key_id: asdf
+  s3_access_key: adfas
+
