@@ -16,11 +16,11 @@ func InitRouter() *gin.Engine {
 
 	// 更新和获取 Collection Metadata 的接口
 	router.POST("/collection/create", app.CreateCollectionMetadata)
-	router.GET("/collection/get", app.GetCollectionMetadata)
+	router.GET("/collection/get/:name", app.GetCollectionMetadata)
 
 	// 更新和获取 TokenTick Metadata 的接口
 	router.POST("/tokentick/create", app.CreateItem)
-	router.GET("/tokentick/get", app.GetItem)
+	router.GET("/tokentick/get/:name", app.GetItem)
 
 	return router
 }
