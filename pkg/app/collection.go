@@ -1,6 +1,7 @@
 package app
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"tonx/pkg/data"
@@ -17,14 +18,20 @@ func CreateCollectionMetadata(c *gin.Context) {
 		return
 	}
 
+	// json.Marshal
+	links, err := json.Marshal(newMetadata.SocialLinks)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	model := &models.CollectionMetadata{
 		Name:        newMetadata.Name,
 		Description: newMetadata.Description,
 		Image:       newMetadata.Image,
 		CoverImage:  newMetadata.CoverImage,
-		// SocialLinks: newMetadata.SocialLinks,
 	}
-	model.SocialLinks = append(model.SocialLinks, newMetadata.SocialLinks...)
+	model.SocialLinks = string(links)
 
 	// 使用 GORM 创建新的记录
 	result := db.DB.Create(model)
@@ -50,7 +57,7 @@ func UpdateCollectionMetadata(c *gin.Context) {
 		CoverImage:  updatedMetadata.CoverImage,
 		// SocialLinks: updatedMetadata.SocialLinks,
 	}
-	model.SocialLinks = append(model.SocialLinks, updatedMetadata.SocialLinks...)
+	// model.SocialLinks = append(model.SocialLinks, updatedMetadata.SocialLinks...)
 
 	// 假设我们使用 ID 字段来识别要更新的记录
 	result := db.DB.Model(&models.CollectionMetadata{}).Where("name = ?", model.Name).Updates(model)
@@ -76,7 +83,13 @@ func GetCollectionMetadata(c *gin.Context) {
 		Description: model.Description,
 		Image:       model.Image,
 		CoverImage:  model.CoverImage,
-		SocialLinks: model.SocialLinks,
+		// SocialLinks: model.SocialLinks,
+	}
+	metadata.SocialLinks = make([]string, 0)
+	err := json.Unmarshal([]byte(model.SocialLinks), metadata.SocialLinks)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, metadata)
