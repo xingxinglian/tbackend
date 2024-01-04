@@ -3,7 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"tonx/pkg/config"
 	"tonx/pkg/db"
 	"tonx/routers"
 )
@@ -15,5 +17,6 @@ func main() {
 	log.Println(" Start Server ")
 
 	router := routers.InitRouter()
-	router.Run(":80")
+	port := config.Config.Port
+	router.Run(fmt.Sprintf(":%d", port))
 }

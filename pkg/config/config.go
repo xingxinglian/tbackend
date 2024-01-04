@@ -15,6 +15,7 @@ var Config Conf
 type Conf struct {
 	Env     string `yaml:"env"`
 	AppName string `yaml:"app_name"`
+	Port    uint64 `yaml:"port"`
 
 	Aws struct {
 		S3Region    string `yaml:"s3_region"`
