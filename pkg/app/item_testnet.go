@@ -1,12 +1,14 @@
 package app
 
 import (
+	"errors"
 	"net/http"
 	"tonx/pkg/data"
 	"tonx/pkg/db"
 	"tonx/pkg/models"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 // router.go
@@ -29,11 +31,18 @@ func CreateTestNetItem(c *gin.Context) {
 	// 使用 GORM 创建新的记录
 	result := db.DB.Create(model)
 	if result.Error != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(result.Error, &pgErr) {
+			if pgErr.Code == "23505" { // PostgreSQL 的唯一性违反错误代码
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Duplicated Name"})
+				return
+			}
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Collection Metadata created"})
+	c.JSON(http.StatusOK, gin.H{"message": " item created"})
 }
 
 func UpdateTestNetItem(c *gin.Context) {
@@ -44,7 +53,7 @@ func UpdateTestNetItem(c *gin.Context) {
 	}
 
 	currentItem = updatedMetadata // 更新 Metadata
-	c.JSON(http.StatusOK, gin.H{"message": "Collection Metadata updated", "metadata": currentItem})
+	c.JSON(http.StatusOK, gin.H{"message": "item updated", "metadata": currentItem})
 }
 
 func GetTestNetItem(c *gin.Context) {

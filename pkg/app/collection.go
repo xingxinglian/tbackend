@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"tonx/pkg/data"
@@ -9,6 +10,7 @@ import (
 	"tonx/pkg/models"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func CreateCollectionMetadata(c *gin.Context) {
@@ -36,6 +38,13 @@ func CreateCollectionMetadata(c *gin.Context) {
 	// 使用 GORM 创建新的记录
 	result := db.DB.Create(model)
 	if result.Error != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(result.Error, &pgErr) {
+			if pgErr.Code == "23505" { // PostgreSQL 的唯一性违反错误代码
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Duplicated Name"})
+				return
+			}
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
