@@ -21,7 +21,7 @@ func InitDB() {
 	}
 
 	// atuo migrate
-	err = DB.AutoMigrate(&models.CollectionMetadata{}, &models.NftItem{})
+	err = DB.AutoMigrate(&models.CollectionMetadata{}, &models.NftItem{}, &models.CollectionTestnetMetadata{}, &models.NftTestnetItem{})
 	if err != nil {
 		log.Fatalf(" auto migrate : %v", err)
 		return
